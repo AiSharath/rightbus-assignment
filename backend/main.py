@@ -63,12 +63,31 @@ async def search_buses(
 
     trips = response.json()
 
+    requested_source = source.strip().casefold()
+    requested_destination = destination.strip().casefold()
+
     buses = []
 
     for trip in trips:
-        schedule = trip["schedule"]
+        trip_source = trip.get("from_city_name", "").strip().casefold()
+        trip_destination = trip.get("to_city_name", "").strip().casefold()
+
+        schedule = trip.get("schedule", {})
+        availability = trip.get("availability", {})
+
+        if trip_source != requested_source:
+            continue
+
+        if trip_destination != requested_destination:
+            continue
+
+        if schedule.get("departure_date") != journey_date:
+            continue
+
+        if availability.get("is_available") is not True:
+            continue
+
         pricing = trip["pricing"]
-        availability = trip["availability"]
 
         bus = {
             "trip_id": trip["trip_id"],

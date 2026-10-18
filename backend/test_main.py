@@ -13,6 +13,8 @@ MOCK_URL = "http://127.0.0.1:8001/mock-gds/search"
 def test_bangalore_to_mumbai():
     sample_trip = {
         "trip_id": "TRP-120807",
+        "from_city_name": "Bangalore",
+        "to_city_name": "Mumbai",
         "operator": "Test Operator",
         "bus_type": "AC Sleeper",
         "is_ac": True,
